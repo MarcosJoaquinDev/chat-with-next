@@ -3,10 +3,12 @@ import type {Request, Response} from 'express'
 import { createNewUser, getUserData, LoginUser } from '../controllers/user'
 import { middelwareVerify } from './middleware';
 import { addNewChat, sendMessage } from '../controllers/chats';
+import * as cors from 'cors';
 
 function main(){
   const port = 3000;
   const app = express();
+  app.use(cors())
   app.use(express.json());
   app.listen(port,()=>{
     console.log('todo ok en el puerto', port);
