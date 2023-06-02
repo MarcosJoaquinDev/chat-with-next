@@ -2,7 +2,7 @@ import * as  express from 'express';
 import type {Request, Response} from 'express'
 import { createNewUser, getUserData, LoginUser } from '../controllers/user'
 import { middelwareVerify } from './middleware';
-import { addNewChat, sendMessage } from '../controllers/chats';
+import { addNewChat, sendMessage, getAllChats } from '../controllers/chats';
 import * as cors from 'cors';
 
 function main(){
@@ -25,6 +25,8 @@ function main(){
       res.status(401).json({[err.name]: err.message});
     }
   })
+
+
  app.post('/signin',async (req:Request,res:Response)=>{
   const { email, password } = req.body;
   try{
@@ -55,11 +57,13 @@ function main(){
       res.json(err);
     }
   })
+
   app.post('/chat',middelwareVerify,async (req:Request,res:Response)=>{
     try {
       const {userId} = req.body._user ;
       const email = req.body.email;
-      await addNewChat(userId,email);
+      const name = req.body.name;
+      await addNewChat({userId,email,name});
       res.status(200).json(email+' scheduled contact');
     } catch (err) {
       if(err.name==='Email Error'){
@@ -73,6 +77,17 @@ function main(){
       }
     }
   })
+  app.get('/chat',middelwareVerify,async (req:Request,res:Response)=>{
+    try {
+      const {userId} = req.body._user ;
+      const data = await getAllChats(userId);
+      res.status(200).json({data});
+    } catch (err) {
+      console.log(err);
+
+    }
+  })
+
   app.post('/message',middelwareVerify,async (req:Request,res:Response)=>{
     try {
       const {userId} = req.body._user ;

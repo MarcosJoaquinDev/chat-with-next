@@ -13,3 +13,8 @@ export interface UserMessage{
   chatId:string,
   message:string,
 }
+export interface NewChat{
+  userId:string,
+  name:string,
+  email:string,
+}

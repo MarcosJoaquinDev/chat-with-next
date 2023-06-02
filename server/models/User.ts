@@ -2,7 +2,6 @@ import {DATA_BASE } from './firebase';
 import * as crypto from 'crypto';
 import { createAuthError, createPasswordError }from './Error'
 import { UserInitial, UserLogin } from '../types/user';
-import { resourceUsage } from 'process';
 
 const USER_COLLECTION = DATA_BASE.collection('User')
 const AUTH_COLLECTION = DATA_BASE.collection('Auth')
@@ -31,7 +30,7 @@ export class User{
     const {userEmpty} = await this.searchEmailInUsers(data.email);
     if(userEmpty){
       const passwordToken = this.codeGenerate(data.password);
-      const newUser = await USER_COLLECTION.add({email:data.email,username:data.username,img:data.img,chats:[],contacts:[]});
+      const newUser = await USER_COLLECTION.add({email:data.email,username:data.username,img:data.img,chats:[]});
       await AUTH_COLLECTION.add({email:data.email,password:passwordToken,userID:newUser.id});
       return `${data.email} create succesfull!`
     }else{
