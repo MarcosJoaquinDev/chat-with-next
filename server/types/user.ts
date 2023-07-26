@@ -14,7 +14,8 @@ export interface UserMessage{
   message:string,
 }
 export interface NewChat{
-  userId:string,
+  userId?:string,
   name:string,
   email:string,
+  img?:string,
 }

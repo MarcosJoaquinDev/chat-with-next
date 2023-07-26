@@ -17,3 +17,7 @@ export async function getAllChats(userId:string){
   const chat = new Chat(userId);
   return chat.getChats();
 }
+export async function getChat(userId:string,chatId:string){
+  const chat = new Chat(userId);
+  return await chat.getOneChat(chatId);
+}
