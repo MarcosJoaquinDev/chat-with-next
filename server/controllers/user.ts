@@ -21,8 +21,6 @@ const updateURLCloudinary = async (url:string)=>{
 export async function createNewUser(user:UserInitial){
   const imgUrl = await updateURLCloudinary(user.img);
   user.img = imgUrl;
-  console.log(user);
-
   try{
     const new_user = new User();
     return await new_user.setAuthentication(user);
